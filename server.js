@@ -42,10 +42,16 @@ app.get("/api/customers", (req, res) => {
 
 app.use("/image", express.static("./upload"));
 app.post("/api/customers", upload.single("image"), (req, res) => {
+  console.log(req.body);
+  var _id = 0;
+  if (data.length > 0) {
+    _id = Number(data[data.length - 1].id) + 1;
+  }
   data.push({
-    id: req.body.name,
+    id: _id,
+    name: req.body.userName,
     birthday: req.body.birthday,
-    image: "/image/" + req.file.fileName,
+    image: "/image/" + req.file.filename,
     gender: req.body.gender,
     job: req.body.job,
   });

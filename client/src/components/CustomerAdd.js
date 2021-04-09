@@ -19,6 +19,16 @@ class CustomerAdd extends React.Component {
 
     this.addCustomer().then((response) => {
       console.log(response);
+      this.props.stateRefresh();
+    });
+
+    this.setState({
+      file: null,
+      userName: "",
+      birthday: "",
+      gender: "",
+      job: "",
+      fileName: "",
     });
   };
 
@@ -32,6 +42,7 @@ class CustomerAdd extends React.Component {
   handleValueChange = (e) => {
     let nextState = {};
     nextState[e.target.name] = e.target.value;
+
     this.setState(nextState);
   };
 
@@ -39,10 +50,10 @@ class CustomerAdd extends React.Component {
     const url = "/api/customers";
     const formData = new FormData();
     formData.append("image", this.state.file);
-    formData.append("name", this.state.userName);
-    formData.append("name", this.state.birthday);
-    formData.append("name", this.state.gender);
-    formData.append("name", this.state.job);
+    formData.append("userName", this.state.userName);
+    formData.append("birthday", this.state.birthday);
+    formData.append("gender", this.state.gender);
+    formData.append("job", this.state.job);
     const config = {
       headers: {
         "content-type": "multipart/form-data",
