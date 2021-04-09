@@ -21,34 +21,23 @@ const styles = (theme) => ({
   },
 });
 
-const customers = [
-  {
-    id: 1,
-    image: "https://placeimg.com/64/64/any/1",
-    name: "장용호",
-    birthday: "961222",
-    gender: "남자",
-    job: "대학생",
-  },
-  {
-    id: 2,
-    image: "https://placeimg.com/64/64/any/2",
-    name: "홍길동",
-    birthday: "960101",
-    gender: "남자",
-    job: "대학생",
-  },
-  {
-    id: 3,
-    image: "https://placeimg.com/64/64/any/3",
-    name: "이순신",
-    birthday: "200401",
-    gender: "여자",
-    job: "대학생",
-  },
-];
-
 class App extends Component {
+  state = {
+    customers: [],
+  };
+
+  componentDidMount() {
+    this.collApi()
+      .then((res) => this.setState({ customers: res }))
+      .catch((err) => console.log(err));
+  }
+
+  collApi = async () => {
+    const response = await fetch("/api/customers");
+    const body = await response.json();
+    return body;
+  };
+
   render() {
     const { classes } = this.props;
     return (
@@ -65,7 +54,7 @@ class App extends Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {customers.map((c) => {
+            {this.state.customers.map((c) => {
               return (
                 <Customer
                   key={c.id}
